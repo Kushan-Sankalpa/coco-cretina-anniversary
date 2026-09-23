@@ -11,7 +11,7 @@ export default function FinalLoveMessage({ data, onReplay, onOpenGift }) {
       <FloatingHearts />
       <div className="ann-final-glow" aria-hidden="true">♥</div>
       <Reveal className="ann-final-content">
-        <div className="ann-final-photo"><RomanticPhoto src={data.image} alt="Coco and Cretina, forever" /></div>
+        <div className="ann-final-photo"><RomanticPhoto src={data.image} alt="A collage of Coco and Cretina's memories together" /></div>
         <p className="ann-eyebrow">06 / ALWAYS YOU</p>
         <h2 id="ann-final-title">{data.heading}</h2>
         <div className="ann-final-promise ann-script">{data.promise.split("\n").map((line, i) =>

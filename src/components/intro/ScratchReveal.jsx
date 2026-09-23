@@ -109,9 +109,9 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
         animate={{ scale: leaving && !reduced ? .95 : 1, opacity: leaving ? .4 : 1 }}
         transition={{ duration: reduced ? 0 : .7 }}>
         <div className="scratch-frame">
-          <motion.div className="scratch-photo" animate={{ scale: revealed && !reduced ? 1.025 : 1 }} transition={{ duration: 1 }}>
+          <div className="scratch-photo">
             <RomanticPhoto src={image} alt={imageAlt} eager />
-          </motion.div>
+          </div>
           <motion.canvas ref={canvasRef} className="scratch-canvas" role="button"
             tabIndex={revealed ? -1 : 0} aria-label="Scratch to reveal the photograph, or press Enter."
             initial={{ opacity: 1 }} animate={{ opacity: revealed ? 0 : 1 }}

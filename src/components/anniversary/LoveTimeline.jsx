@@ -19,7 +19,7 @@ export default function LoveTimeline({ data }) {
               <span className="ann-timeline-dot" aria-hidden="true">♡</span>
               <Reveal className="ann-timeline-entry">
                 <div className="ann-timeline-copy"><p className="ann-eyebrow">{item.date}</p><h3>{item.title}</h3><p>{item.message}</p></div>
-                <div className="ann-timeline-photo"><RomanticPhoto src={item.image} alt={item.title} /><span aria-hidden="true">chapter {String(index + 1).padStart(2, "0")}</span></div>
+                <div className="ann-timeline-photo" style={{ "--memory-ratio": item.aspectRatio || "4 / 3" }}><RomanticPhoto src={item.image} alt={item.title} /><span aria-hidden="true">chapter {String(index + 1).padStart(2, "0")}</span></div>
               </Reveal>
             </li>
           ))}

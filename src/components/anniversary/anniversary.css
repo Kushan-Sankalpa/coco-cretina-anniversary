@@ -125,7 +125,7 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
 .ann-timeline-copy > p:last-child { font-size: .88rem; line-height: 1.85; color: var(--ann-muted); }
 .ann-timeline-copy .ann-eyebrow { font-size: .58rem; margin-bottom: 14px; }
 .ann-timeline-photo { max-width: 325px; width: 100%; padding: 9px 9px 15px; background: #fff9f0; box-shadow: 0 12px 30px #7849590f; transform: rotate(2deg); }
-.ann-timeline-photo .ann-photo { aspect-ratio: 4 / 3; }
+.ann-timeline-photo .ann-photo { aspect-ratio: var(--memory-ratio, 4 / 3); }
 .ann-timeline-photo > span { display: block; padding-top: 9px; text-align: center; font: 1.2rem var(--ann-script); color: #a0717a; }
 .ann-timeline li:nth-child(even) .ann-timeline-photo { grid-column: 1; grid-row: 1; margin-left: auto; transform: rotate(-2deg); }
 .ann-timeline li:nth-child(even) .ann-timeline-copy { grid-column: 2; grid-row: 1; margin-left: 0; }
@@ -138,7 +138,8 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
 .ann-future-promise { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.25; }
 .ann-final { position: relative; padding: 95px 30px 30px; text-align: center; isolation: isolate; }
 .ann-final-content { position: relative; z-index: 1; max-width: 1000px; margin: auto; }
-.ann-final-photo { width: 210px; aspect-ratio: 4 / 5; padding: 9px; margin: 0 auto 40px; background: #fffcf5; box-shadow: 0 16px 40px #6d3c4921; transform: rotate(-4deg); }
+.ann-final-photo { width: min(360px, 90%); aspect-ratio: 1; padding: 9px; margin: 0 auto 40px; background: #fffcf5; box-shadow: 0 16px 40px #6d3c4921; transform: rotate(-4deg); }
+.ann-final-photo .ann-photo > img { object-fit: contain; background: #fffcf5; }
 .ann-final-photo .ann-photo-monogram { font-size: 4rem; }
 .ann-final h2 { font-size: clamp(1.7rem, 3vw, 2.7rem); }
 .ann-final-promise { margin: 20px auto 25px !important; font-size: clamp(3rem, 6.2vw, 5.6rem); line-height: 1.13; color: var(--ann-wine); text-wrap: balance; max-width: 880px; }
@@ -206,7 +207,7 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
   .ann-final { padding: 70px 22px 24px; }
   .ann-final h2 { font-size: 1.8rem; }
   .ann-final-promise { font-size: clamp(2.8rem, 10vw, 4rem); }
-  .ann-final-photo { width: 180px; }
+  .ann-final-photo { width: min(300px, 90%); }
   .ann-final-anniversary { font-size: 1.25rem; }
   .ann-colophon { margin-top: 65px; font-size: .48rem; }
 }

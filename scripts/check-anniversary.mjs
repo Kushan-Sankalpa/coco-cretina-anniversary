@@ -4,7 +4,7 @@ import { createServer } from "vite";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { anniversaryData } from "../src/data/anniversaryData.js";
-import { getAnniversaryCountdownState, ordinal } from "../src/data/anniversaryDates.js";
+import { getAnniversaryCountdownState } from "../src/data/anniversaryDates.js";
 
 // Optional path to the original brief verifies the letter has been preserved verbatim.
 if (process.argv[2]) {
@@ -28,9 +28,10 @@ try {
   assert.ok(markup.includes('class="ann-photo-placeholder"'), "Image placeholders must render before images load");
   assert.ok(!markup.includes("Alex"), "The old starter names must not appear");
   const countdown = getAnniversaryCountdownState(anniversaryData);
-  assert.ok(markup.includes(`Until Our ${ordinal(countdown.nextNumber)} Anniversary`));
+  assert.ok(markup.includes("Until Our Next Anniversary"));
   assert.ok(countdown.nextDate, "The default countdown must have a real target instead of dashes");
-  assert.ok(markup.includes("4 Years of Us"));
+  assert.ok(markup.includes("Celebrating Us"));
+  assert.ok(!/(?:\d+(?:st|nd|rd|th) Anniversary|Four years|Years of Us|Years Together|Months of Us)/i.test(markup), "Anniversary year counts must not be displayed");
   assert.ok(markup.includes("my precious sosa mala"));
   assert.ok(!markup.includes("my favorite human"));
   assert.ok(markup.includes("ann-wheel-disc"));
@@ -39,6 +40,8 @@ try {
   const { default: App } = await server.ssrLoadModule("/src/App.jsx");
   const introMarkup = renderToStaticMarkup(createElement(App));
   assert.ok(introMarkup.includes("Open your anniversary surprise"));
+  assert.ok(introMarkup.includes("Happy Anniversary"));
+  assert.ok(!/\d+(?:st|nd|rd|th) Anniversary/i.test(introMarkup));
   assert.equal((introMarkup.match(/<audio\b/g) || []).length, 1, "One persistent audio element must serve the whole experience");
   assert.ok(introMarkup.includes('src="/music/until-i-found-you.mp3"'));
   assert.ok(introMarkup.includes('preload="none"'));

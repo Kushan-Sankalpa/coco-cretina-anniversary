@@ -12,12 +12,13 @@ export const anniversaryData = {
   cuteLabel: "my precious sosa mala ♥️🦋",
   hero: {
     image: "/photos/hero-coco-cretina.jpg",
-    heading: "Happy 4th Anniversary\nMy Cretinaaa Princess ♥️🦋🫂🥹🐼",
+    heading: "Happy Anniversary\nMy Cretinaaa Princess ♥️🦋🫂🥹🐼",
     dedication: "Forever yours,\nCoco ♥️",
-    message: "Four years of us, and you're still my favorite part of every day.",
+    message: "You're still my favorite part of every day.",
   },
   yearsTogether: {
-    message: "Four years of memories, laughter, little fights, endless talks, hugs, adventures and choosing each other again and again. And somehow, I still feel like our story is only getting started. ♥️🦋🫂",
+    heading: "Celebrating Us ♥️",
+    message: "All our memories, laughter, little fights, endless talks, hugs, adventures and choosing each other again and again. And somehow, I still feel like our story is only getting started. ♥️🦋🫂",
   },
   countdown: {
     // Temporary target: one year from this request. A real relationshipStartDate
@@ -45,7 +46,7 @@ export const anniversaryData = {
     ],
   },
   letter: {
-    image: "/photos/love-letter-photo.jpg",
+    image: "/photos/next-to-you.jpeg",
     heading: "A little letter, a whole lot of love.",
     message: `Happy Anniversary to the most beautiful girl in my world, my Sosa Mala ♥️🦋🙇‍♂️🫂
 
@@ -78,12 +79,12 @@ Coco ♥️`,
     heading: "Our Little World ♥️",
     subtitle: "A few tiny moments that became some of my favorite memories.",
     photos: [
-      { image: "/photos/memory-1.jpg", caption: "My favorite smile ♥️", rotation: -3 },
-      { image: "/photos/memory-2.jpg", caption: "My safe place 🫂", rotation: 2 },
-      { image: "/photos/memory-3.jpg", caption: "Us being us 😂♥️", rotation: -1.5 },
-      { image: "/photos/memory-4.jpg", caption: "One of my favorite days 🦋", rotation: 2.5 },
-      { image: "/photos/memory-5.jpg", caption: "My pretty princess 🥹♥️", rotation: -2 },
-      { image: "/photos/memory-6.jpg", caption: "More memories loading... ♥️", rotation: 3 },
+      { image: "/photos/my-favorite-smile.jpeg", caption: "My favorite smile ♥️", rotation: -3 },
+      { image: "/photos/my-safe-place.jpeg", caption: "My safe place 🫂", rotation: 2 },
+      { image: "/photos/us-being-us.jpeg", caption: "Us being us 😂♥️", rotation: -1.5 },
+      { image: "/photos/one-of-my-favorite-days.jpeg", caption: "One of my favorite days 🦋", rotation: 2.5 },
+      { image: "/photos/my-pretty-princess.jpeg", caption: "My pretty princess 🥹♥️", rotation: -2 },
+      { image: "/photos/more-memories-loading.jpeg", caption: "More memories loading... ♥️", rotation: 3 },
     ],
   },
   reasons: {
@@ -93,11 +94,11 @@ Coco ♥️`,
   timeline: {
     heading: "Our Story So Far",
     items: [
-      { date: "The beginning", title: "The day everything changed", message: "Somewhere between hello and our next conversation, you became someone I wanted in every tomorrow.", image: "/photos/memory-1.jpg" },
-      { date: "Our first chapter", title: "Our first proper date", message: "A little nervous, a lot of smiling. The kind of day you wish you could live twice.", image: "/photos/memory-2.jpg" },
-      { date: "A favorite little moment", title: "One of our funniest memories", message: "The joke probably made no sense to anyone else. That is what made it ours.", image: "/photos/memory-3.jpg" },
-      { date: "A day to keep forever", title: "A day I'll never forget", message: "Nothing needed to be perfect. You were there, and that was everything.", image: "/photos/memory-4.jpg" },
-      { date: "Today & all our tomorrows", title: "Today — still choosing each other", message: "More love, more little adventures, and a whole beautiful life still waiting for us.", image: "/photos/memory-5.jpg" },
+      { date: "The beginning", title: "The day everything changed", message: "Somewhere between hello and our next conversation, you became someone I wanted in every tomorrow.", image: "/photos/the-day-everything-changed.png", aspectRatio: "490 / 496" },
+      { date: "Our first chapter", title: "Our first proper date", message: "A little nervous, a lot of smiling. The kind of day you wish you could live twice.", image: "/photos/our-first-proper-date.jpeg", aspectRatio: "3 / 4" },
+      { date: "A favorite little moment", title: "One of our funniest memories", message: "The joke probably made no sense to anyone else. That is what made it ours.", image: "/photos/one-of-our-funniest-memories.jpeg", aspectRatio: "959 / 1280" },
+      { date: "A day to keep forever", title: "A day I'll never forget", message: "Nothing needed to be perfect. You were there, and that was everything.", image: "/photos/a-day-ill-never-forget.jpeg", aspectRatio: "3 / 4" },
+      { date: "Today & all our tomorrows", title: "Today — still choosing each other", message: "More love, more little adventures, and a whole beautiful life still waiting for us.", image: "/photos/next-to-you.jpeg", aspectRatio: "959 / 1280" },
     ],
   },
   future: {
@@ -106,10 +107,10 @@ Coco ♥️`,
     promise: "And I want all of them with you.",
   },
   final: {
-    image: "/photos/forever.jpg",
+    image: "/photos/always-you.jpeg",
     heading: "No matter where life takes us...",
     promise: "I'll keep choosing you.\nAgain and again.\nAlways. ♥️🦋🫂",
-    anniversary: "Happy 4th Anniversary,\nmy Cretinaaa ♥️",
+    anniversary: "Happy Anniversary,\nmy Cretinaaa ♥️",
     signature: "Love,\nCoco ♥️",
     replay: "Replay Our Story ♥️",
   },

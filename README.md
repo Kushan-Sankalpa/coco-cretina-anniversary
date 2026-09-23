@@ -35,7 +35,7 @@ Change:
 
 Set `relationshipStartDate` to your real date in `YYYY-MM-DD` format. It is intentionally blank: the old starter's sample date is not a confirmed personal date. Until configured, `countdown.fallbackTargetDate` provides a working, explicitly labelled temporary countdown to 2027-09-23 (one year from the 2026-09-23 request). It does not reset on reload and rolls forward annually. A real relationship start date takes priority automatically. Dates use the visitor's local timezone; February 29 falls on February 28 in non-leap years. Hours stay in the valid 0–23 range.
 
-`currentAnniversaryNumber: 4` is the celebration's fallback, not a fixed countdown target. The hero and personal fourth-anniversary messages remain editable text.
+`currentAnniversaryNumber` is used only in internal date calculations, not displayed. Greetings say "Happy Anniversary", the countdown says "Until Our Next Anniversary", and relationship-duration statistics are hidden.
 
 Intro text and the scratch photograph are in `src/components/intro/introConfig.js`.
 `src/siteConfig.js` and `src/LegacyAnniversary.jsx` preserve the original starter and are not used by the current experience.

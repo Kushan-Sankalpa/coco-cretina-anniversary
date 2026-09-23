@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { getAnniversaryCountdownState, getCountdown, ordinal } from "../../data/anniversaryDates";
+import { getAnniversaryCountdownState, getCountdown } from "../../data/anniversaryDates";
 import Reveal from "./Reveal";
 
 export default function AnniversaryCountdown({ data }) {
@@ -27,7 +27,7 @@ export default function AnniversaryCountdown({ data }) {
     <div className="ann-section">
       <Reveal className="ann-section-heading ann-centered">
         <p className="ann-eyebrow">MORE US, PLEASE</p>
-        <h2 id="ann-countdown-title">Until Our {ordinal(state.nextNumber)} Anniversary <span className="ann-countdown-heart">♥️</span></h2>
+        <h2 id="ann-countdown-title">Until Our Next Anniversary <span className="ann-countdown-heart">♥️</span></h2>
         <p>{data.countdown.subtitle}</p>
       </Reveal>
       <div className="ann-countdown-grid" role="timer" aria-label={values ? "Time until our next anniversary" : "Anniversary date to be set"} aria-live="off">
