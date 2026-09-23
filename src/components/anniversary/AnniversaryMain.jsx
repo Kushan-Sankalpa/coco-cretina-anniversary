@@ -10,6 +10,7 @@ import FutureTogether from "./FutureTogether";
 import FinalLoveMessage from "./FinalLoveMessage";
 import YearsTogether from "./YearsTogether";
 import AnniversaryCountdown from "./AnniversaryCountdown";
+import LoveSpinWheel from "./LoveSpinWheel";
 import "@fontsource/allura/latin-400.css";
 import "@fontsource/cormorant-garamond/latin-400.css";
 import "@fontsource/cormorant-garamond/latin-500.css";
@@ -36,8 +37,9 @@ export default function AnniversaryMain({ active = true, onOpenGift }) {
         <AnniversaryHero data={anniversaryData.hero} onReadLetter={() => scrollTo("anniversary-letter")} />
         <YearsTogether data={anniversaryData} />
         <AnniversaryCountdown data={anniversaryData} />
-        <LoveLetter data={anniversaryData.letter} />
+        <LoveLetter data={anniversaryData.letter} cuteLabel={anniversaryData.cuteLabel} />
         <MemoryGallery data={anniversaryData.memories} />
+        <LoveSpinWheel data={anniversaryData.spinWheel} />
         <ReasonsILoveYou data={anniversaryData.reasons} />
         <LoveTimeline data={anniversaryData.timeline} />
         <FutureTogether data={anniversaryData.future} />

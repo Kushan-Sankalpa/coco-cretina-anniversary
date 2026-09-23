@@ -1,0 +1,43 @@
+.ann-spin-section { position: relative; isolation: isolate; background: radial-gradient(ellipse at 50% 48%, #fff4e7, #f4e7e4 64%, #f0e2e5); border-block: 1px solid #b7868c24; }
+.ann-spin-section > .ann-hearts { color: #a46b7e; }
+.ann-spin-section .ann-section { position: relative; z-index: 1; }
+.ann-spin-section .ann-section-heading { position: relative; max-width: 660px; margin: 0 auto clamp(32px, 5vw, 52px); }
+.ann-spin-section .ann-section-heading h2 { font-size: clamp(2.4rem, 5vw, 4.2rem); }
+.ann-spin-section .ann-section-heading > p:last-of-type { margin: 20px auto 0; max-width: 490px; color: #886575; font-size: .95rem; line-height: 1.8; }
+.ann-wheel-butterfly { display: block; width: 26px; margin: 18px auto 0; color: #aa869c; opacity: .75; }
+.ann-wheel-content { display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 0; text-align: center; }
+.ann-wheel-stage { position: relative; width: min(100%, 530px); aspect-ratio: 1; margin: 10px auto 30px; }
+.ann-wheel-halo { position: absolute; inset: 2%; border-radius: 50%; box-shadow: 0 24px 45px -14px #70384d35, 0 5px 10px #70384d14, 0 0 70px #ffead27d; }
+.ann-wheel-disc { position: relative; display: block; width: 100%; height: 100%; overflow: visible; transform-origin: 50% 50%; }
+.ann-wheel-label text { fill: #573143; font: 500 21px/1.2 system-ui, sans-serif; letter-spacing: -.4px; }
+.ann-wheel-label .ann-wheel-emoji { font-size: 24px; }
+.ann-wheel-segment { transition: stroke .45s ease, stroke-width .45s ease; }
+.ann-wheel-pointer { position: absolute; z-index: 3; left: calc(50% - 18px); top: -9px; width: 36px; height: 49px; filter: drop-shadow(0 3px 3px #68233d33); pointer-events: none; }
+.ann-wheel-hub { position: absolute; z-index: 2; left: 50%; top: 50%; translate: -50% -50%; width: 17%; min-width: 48px; aspect-ratio: 1; padding: 0; border: 3px double #f6dcc5; border-radius: 50%; background: radial-gradient(circle at 32% 22%, #b97587, #7c3653 70%); color: #ffdfcc; box-shadow: 0 5px 16px #562a4b38, inset 0 1px 2px #ffeadc55; touch-action: manipulation; }
+.ann-wheel-hub span { font: clamp(1rem, 4vw, 2rem)/1 Georgia, serif; }
+.ann-main .ann-wheel-hub:focus-visible { outline: 3px solid #58223f; outline-offset: 4px; }
+.ann-wheel-hub:disabled, .ann-spin-button:disabled { cursor: wait; }
+.ann-main .ann-spin-button { min-width: min(100%, 240px); max-width: 100%; min-height: 52px; color: #fff2e6; background: #783c53; border-color: #783c53; box-shadow: 0 8px 20px #77354d1a; font-size: .94rem; }
+.ann-spin-button:disabled { opacity: .75; }
+.ann-wheel-result-slot { min-height: 172px; margin-top: 26px; width: min(100%, 500px); display: grid; align-items: center; }
+.ann-wheel-result { padding: 28px 30px; border-radius: 18px; border: 1px solid #bb8c9538; background: linear-gradient(135deg, #fffdf6e8, #fff5ebbd); box-shadow: 0 14px 35px -12px #75364c18, inset 0 1px #fffdfa; }
+.ann-wheel-result-eyebrow { display: block; font-size: .62rem; letter-spacing: .16em; color: #916475; margin-bottom: 12px; }
+.ann-wheel-result h3 { font-size: clamp(1.65rem, 5vw, 2.1rem); line-height: 1.2; color: #632b47; }
+.ann-wheel-result p { margin-top: 12px; font-size: .94rem; line-height: 1.8; color: #896572; }
+.ann-wheel-waiting { color: #926e7a; font: italic 1.2rem/1.6 var(--ann-serif); max-width: 30ch; margin-inline: auto !important; }
+.ann-wheel-burst { position: absolute; z-index: 4; left: 50%; top: 42%; color: #984d6c; pointer-events: none; }
+.ann-wheel-burst span { position: absolute; font-size: 20px; }
+@media (hover: hover) and (pointer: fine) {
+  .ann-main .ann-spin-button:hover:not(:disabled) { background: #622c46; }
+  .ann-wheel-hub:hover:not(:disabled) { filter: brightness(1.08); }
+}
+@media (max-width: 600px) {
+  .ann-wheel-stage { margin-bottom: 24px; }
+  .ann-wheel-result { padding: 22px 19px; }
+  .ann-wheel-result-slot { min-height: 185px; }
+  .ann-wheel-pointer { width: 28px; height: 38px; left: calc(50% - 14px); top: -7px; }
+  .ann-wheel-label text { font-size: 22px; letter-spacing: -.4px; }
+  .ann-wheel-butterfly { width: 23px; margin-top: 16px; }
+  .ann-spin-section .ann-section-heading h2 { font-size: clamp(2.2rem, 8.5vw, 3.3rem); }
+  .ann-spin-section .ann-section-heading > p:last-of-type { font-size: .9rem; max-width: 32ch; }
+}

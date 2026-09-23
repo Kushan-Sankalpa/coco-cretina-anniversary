@@ -1,7 +1,7 @@
 import Reveal from "./Reveal";
 import RomanticPhoto from "./RomanticPhoto";
 
-export default function LoveLetter({ data }) {
+export default function LoveLetter({ data, cuteLabel }) {
   const paragraphs = data.message.split("\n\n");
   return (
     <section className="ann-letter-section ann-section" id="anniversary-letter" aria-labelledby="ann-letter-title">
@@ -21,7 +21,7 @@ export default function LoveLetter({ data }) {
               <RomanticPhoto src={data.image} alt="Coco and Cretina, a moment close to my heart" />
               <figcaption>My favorite place is next to you.</figcaption>
             </figure>
-            <p className="ann-sticky-note">my favorite human 🥹</p>
+            <p className="ann-sticky-note">{cuteLabel}</p>
             <p className="ann-margin-note">Some things are too big<br />for words.<br /><span>You are one of them.</span></p>
           </Reveal>
         </aside>

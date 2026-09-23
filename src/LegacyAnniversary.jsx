@@ -212,7 +212,7 @@ function MainSite() {
               </p>
             </div>
 
-            <div className="tiny-note tiny-note-one">my favorite human ♡</div>
+            <div className="tiny-note tiny-note-one">my precious sosa mala ♥️🦋</div>
             <div className="tiny-note tiny-note-two">forever sounds good</div>
           </div>
 

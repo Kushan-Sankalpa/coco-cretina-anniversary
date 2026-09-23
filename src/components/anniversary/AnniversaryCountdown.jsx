@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
-import { getAnniversaryState, getCountdown, ordinal } from "../../data/anniversaryDates";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { getAnniversaryCountdownState, getCountdown, ordinal } from "../../data/anniversaryDates";
 import Reveal from "./Reveal";
 
 export default function AnniversaryCountdown({ data }) {
   const ref = useRef(null);
   const visible = useInView(ref, { margin: "100px" });
+  const reduced = useReducedMotion();
   const [now, setNow] = useState(() => new Date());
-  const state = getAnniversaryState(data, now);
+  const state = getAnniversaryCountdownState(data, now);
+  const hasTarget = Boolean(state.nextDate);
   useEffect(() => {
-    if (!visible || !state.configured) return;
+    if (!visible || !hasTarget) return;
     let timer;
     const tick = () => setNow(new Date());
     const sync = () => {
@@ -19,7 +21,7 @@ export default function AnniversaryCountdown({ data }) {
     sync();
     document.addEventListener("visibilitychange", sync);
     return () => { clearInterval(timer); document.removeEventListener("visibilitychange", sync); };
-  }, [visible, state.configured]);
+  }, [visible, hasTarget]);
   const values = getCountdown(state.nextDate, now);
   return <section className="ann-countdown-section" ref={ref} aria-labelledby="ann-countdown-title">
     <div className="ann-section">
@@ -29,12 +31,15 @@ export default function AnniversaryCountdown({ data }) {
         <p>{data.countdown.subtitle}</p>
       </Reveal>
       <div className="ann-countdown-grid" role="timer" aria-label={values ? "Time until our next anniversary" : "Anniversary date to be set"} aria-live="off">
-        {["days", "hours", "minutes", "seconds"].map((label) => <div className="ann-countdown-card" key={label}>
-          <strong>{values ? String(values[label]).padStart(2, "0") : "—"}</strong><span>{label}</span>
+        {Object.entries(data.countdown.labels).map(([label, title]) => <div className="ann-countdown-card" key={label}>
+          <motion.strong key={values?.[label] ?? "unset"} initial={reduced ? false : { opacity: .7 }}
+            animate={{ opacity: 1 }} transition={{ duration: .2 }}>
+            {values ? String(values[label]).padStart(2, "0") : "—"}
+          </motion.strong><span>{title}</span>
         </div>)}
       </div>
       <p className="ann-countdown-note">{state.nextDate
-        ? state.nextDate.toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })
+        ? `${state.provisional ? "Temporary target · " : ""}${state.nextDate.toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })}`
         : data.countdown.unconfiguredMessage}</p>
       <p className="ann-couple-divider">{data.coupleName1} ♡ {data.coupleName2}</p>
     </div>

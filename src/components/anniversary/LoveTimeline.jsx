@@ -11,8 +11,9 @@ export default function LoveTimeline({ data }) {
     <section className="ann-timeline-section" id="anniversary-story" aria-labelledby="ann-story-title">
       <div className="ann-section">
         <Reveal className="ann-section-heading ann-centered"><p className="ann-eyebrow">04 / EVERY CHAPTER LED ME TO YOU</p><h2 id="ann-story-title">{data.heading}</h2><p>Not a perfect story. Our favorite one.</p></Reveal>
-        <ol className="ann-timeline" ref={ref}>
-          <motion.li className="ann-timeline-progress" aria-hidden="true" style={{ scaleY: reduced ? 1 : scrollYProgress }} />
+        <div className="ann-timeline-track" ref={ref}>
+          <motion.div className="ann-timeline-progress" aria-hidden="true" style={{ scaleY: reduced ? 1 : scrollYProgress }} />
+        <ol className="ann-timeline">
           {data.items.map((item, index) => (
             <li key={`${item.date}-${item.title}`}>
               <span className="ann-timeline-dot" aria-hidden="true">♡</span>
@@ -23,6 +24,7 @@ export default function LoveTimeline({ data }) {
             </li>
           ))}
         </ol>
+        </div>
       </div>
     </section>
   );

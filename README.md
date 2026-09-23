@@ -15,10 +15,10 @@ Open the local URL Vite shows in your terminal (usually `http://localhost:5173`)
 
 ## 2. Customize the website
 
-Most text is inside:
+The current Coco & Cretina experience is configured in:
 
 ```text
-src/siteConfig.js
+src/data/anniversaryData.js
 ```
 
 Change:
@@ -30,6 +30,15 @@ Change:
 - Reasons
 - Love letter
 - Memory cards
+- Spin-wheel outcomes and messages
+- The small romantic label
+
+Set `relationshipStartDate` to your real date in `YYYY-MM-DD` format. It is intentionally blank: the old starter's sample date is not a confirmed personal date. Until configured, `countdown.fallbackTargetDate` provides a working, explicitly labelled temporary countdown to 2027-09-23 (one year from the 2026-09-23 request). It does not reset on reload and rolls forward annually. A real relationship start date takes priority automatically. Dates use the visitor's local timezone; February 29 falls on February 28 in non-leap years. Hours stay in the valid 0–23 range.
+
+`currentAnniversaryNumber: 4` is the celebration's fallback, not a fixed countdown target. The hero and personal fourth-anniversary messages remain editable text.
+
+Intro text and the scratch photograph are in `src/components/intro/introConfig.js`.
+`src/siteConfig.js` and `src/LegacyAnniversary.jsx` preserve the original starter and are not used by the current experience.
 
 ## 3. Add your own photos
 
@@ -42,41 +51,42 @@ public/photos/
 Example:
 
 ```text
-public/photos/date-night.jpg
+public/photos/hero-coco-cretina.jpg
+public/photos/surprise.jpg
+public/photos/love-letter-photo.jpg
+public/photos/memory-1.jpg
 ```
 
-Then in `src/siteConfig.js`:
+Continue with `memory-2.jpg` through `memory-6.jpg`, plus `future-us.jpg` and `forever.jpg`. Exact configured paths are in the two data files above; you can change them to match your own filenames.
+
+For example, in `src/data/anniversaryData.js`:
 
 ```js
 {
-  title: "Favorite date",
   caption: "A night I will always remember.",
   image: "/photos/date-night.jpg",
-  emoji: "💗",
+  rotation: -3,
 }
 ```
 
-When `image` is empty, the site shows the sample gradient placeholder.
+Missing or unloaded images show a romantic monogram placeholder rather than a broken image. No JSX changes are needed to add photos.
 
-## 4. Change the hero placeholder to a real image
+## 4. Interactions and checks
 
-Inside `src/App.jsx`, find:
+The experience stays in order: envelope → scratch reveal → Continue → main story. Replay scrolls to the main-page top; Open the gift again restarts the intro.
 
-```jsx
-<div className="photo-placeholder">
+- Scratch with mouse or touch; 42% coverage reveals the rest. A tap/keyboard alternative is available.
+- After reveal, the heading folds away and the photo moves up. Continue stays fixed above the phone's bottom safe area; there is no forced auto-redirect.
+- Tapping the envelope starts `public/music/until-i-found-you.mp3`. Playback continues through the main story. The small top-right button pauses/resumes music. Change the source and starting volume in `anniversaryData.music`. Browsers that block playback offer a manual retry.
+- The seven-outcome spin wheel follows the memory gallery. Edit its labels, colors and messages in `anniversaryData.spinWheel`; keep wheel labels short.
+- Reduced-motion preferences disable decorative motion and settle spins immediately.
+
+```bash
+npm test
+node scripts/check-anniversary.mjs
 ```
 
-Replace the whole `photo-placeholder` div with:
-
-```jsx
-<img
-  src="/photos/hero.jpg"
-  alt="Our favorite memory"
-  style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }}
-/>
-```
-
-Put `hero.jpg` inside `public/photos`.
+Tests cover the canvas engine, pointer coordinates, resizing, yearly countdown rollover, and wheel alignment. The rendering check verifies the sections and intro entry point. These are not browser/device tests: check the full flow on iPhone Safari and desktop before sharing.
 
 ## 5. Build the project
 
@@ -119,8 +129,14 @@ anniversary-react-site/
 ├─ src/
 │  ├─ App.jsx
 │  ├─ main.jsx
-│  ├─ siteConfig.js
+│  ├─ data/
+│  │  ├─ anniversaryData.js
+│  │  └─ anniversaryDates.js
+│  ├─ components/
+│  │  ├─ intro/
+│  │  └─ anniversary/
 │  └─ styles.css
+├─ scripts/
 ├─ .gitignore
 ├─ index.html
 ├─ package.json
@@ -130,13 +146,10 @@ anniversary-react-site/
 
 ## Next features you can add
 
-- Background music with play/pause
 - Password screen
-- Real image gallery/lightbox
 - Video memory section
 - Spotify song embed
 - Secret message / surprise button
-- Animated relationship timeline
 - Confetti on anniversary day
 - Dark mode
 - Custom domain on Vercel

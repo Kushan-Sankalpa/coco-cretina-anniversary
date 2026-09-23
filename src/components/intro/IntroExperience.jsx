@@ -6,7 +6,7 @@ import ScratchReveal from "./ScratchReveal";
 import { defaultIntroConfig } from "./introConfig";
 import "./intro.css";
 
-function IntroExperience({ onBegin, onComplete, config = {} }) {
+function IntroExperience({ onBegin, onComplete, onEnvelopeOpen, config = {} }) {
   const [step, setStep] = useState("envelope");
   const [isLeaving, setIsLeaving] = useState(false);
   const leavingRef = useRef(false);
@@ -26,7 +26,7 @@ function IntroExperience({ onBegin, onComplete, config = {} }) {
       <motion.div
         className={`intro-experience ${isLeaving ? "intro-leaving" : ""}`}
         animate={{ opacity: isLeaving ? [1, 1, .75, 0] : 1 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 1.35, times: [0, .3, .6, 1], ease: "easeInOut" }}
+        transition={{ duration: prefersReducedMotion ? 0 : 1.2, times: [0, .2, .6, 1], ease: "easeInOut" }}
         onAnimationComplete={() => { if (leavingRef.current) onComplete(); }}
       >
         <HeartRain rising={isLeaving} />
@@ -40,6 +40,7 @@ function IntroExperience({ onBegin, onComplete, config = {} }) {
               heading={content.heading}
               label={content.label}
               helperText={content.envelopeHelper}
+              onOpening={onEnvelopeOpen}
               onOpen={() => setStep("scratch")}
             />
           ) : (
@@ -57,8 +58,8 @@ function IntroExperience({ onBegin, onComplete, config = {} }) {
 
         <p className="intro-corner-note" aria-hidden="true">made with love</p>
         {isLeaving && <motion.div className="intro-rose-wash" aria-hidden="true"
-          initial={{ opacity: 0 }} animate={{ opacity: [0, .8, .45] }}
-          transition={{ duration: 1.35, ease: "easeInOut" }} />}
+          initial={{ opacity: 0 }} animate={{ opacity: [0, .45, 0] }}
+          transition={{ duration: 1.2, ease: "easeInOut" }} />}
       </motion.div>
     </MotionConfig>
   );

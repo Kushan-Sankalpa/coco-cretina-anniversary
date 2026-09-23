@@ -7,6 +7,7 @@
   --ann-paper: #fcf7ef;
   --ann-serif: "Cormorant Garamond", Georgia, serif;
   --ann-script: "Allura", "Segoe Script", cursive;
+  --ann-gutter: clamp(20px, 5.5vw, 48px);
   background: var(--ann-paper);
   color: var(--ann-ink);
   overflow: clip;
@@ -18,19 +19,19 @@
 .ann-main button:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 .ann-main h1:focus { outline: none; }
 .ann-main h1, .ann-main h2, .ann-main h3, .ann-main p, .ann-main figure { margin: 0; }
-.ann-main h2 { font: 400 clamp(2.6rem, 5vw, 4.7rem)/1.1 var(--ann-serif); letter-spacing: -.035em; text-wrap: balance; }
+.ann-main h2 { font: 400 clamp(2.6rem, 5vw, 4.7rem)/1.14 var(--ann-serif); letter-spacing: -.025em; text-wrap: balance; }
 .ann-main h3 { font-family: var(--ann-serif); font-weight: 500; }
 .ann-section { width: min(1160px, calc(100% - 96px)); margin-inline: auto; padding-block: 112px; }
-.ann-section-heading { margin-bottom: 64px; }
+.ann-section-heading { margin-bottom: clamp(36px, 5vw, 64px); }
+.ann-section-heading h2 { max-width: 19ch; }
+.ann-section-heading.ann-centered h2 { margin-inline: auto; }
 .ann-section-heading > p:last-child:not(.ann-eyebrow) { color: var(--ann-muted); margin-top: 20px; font-size: .92rem; }
 .ann-main .ann-eyebrow { font: 500 .65rem/1.7 system-ui, sans-serif; letter-spacing: .23em; text-transform: uppercase; color: var(--ann-rose); margin-bottom: 23px; }
 .ann-centered { text-align: center; }
 .ann-script { font-family: var(--ann-script); font-weight: 400; }
 .ann-fine-rule { display: block; width: 72px; height: 1px; margin: 28px auto; background: currentColor; opacity: .35; }
 .ann-button { display: inline-flex; align-items: center; justify-content: center; gap: 26px; min-height: 50px; padding: 13px 26px; border: 1px solid #ac7b82; border-radius: 999px; background: transparent; color: var(--ann-wine); font-size: .8rem; transition: background .25s, box-shadow .25s; }
-.ann-button:hover { background: #f2e3de; box-shadow: 0 8px 28px #5921370d; }
 .ann-main .ann-button-light { color: #fff4e9; border-color: #f8e1d273; background: #fff0df0a; }
-.ann-button-light:hover { background: #fff0df1c; }
 
 /* Photo frames always reserve their size; the monogram appears until a real image loads. */
 .ann-photo { position: relative; width: 100%; height: 100%; min-height: 0; overflow: hidden; background: #c99491; }
@@ -64,7 +65,7 @@
 .ann-hero-dedication { font: 400 clamp(1.4rem, 2.3vw, 1.85rem)/1.5 var(--ann-serif); margin-top: 28px !important; }
 .ann-hero-message { max-width: 410px; margin: 0 auto 30px !important; font-size: .9rem; color: #f1dbd1; line-height: 1.85; }
 .ann-hearts { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.ann-hearts span { position: absolute; bottom: -35px; color: currentColor; opacity: 0; font: 18px Georgia, serif; animation: ann-heart-rise linear infinite; animation-play-state: paused; }
+.ann-hearts span { position: absolute; bottom: -35px; color: currentColor; opacity: 0; font: 15px Georgia, serif; animation: ann-heart-rise linear infinite; animation-play-state: paused; }
 .ann-hearts.ann-effects-active span { animation-play-state: running; }
 .ann-butterfly { display: inline-block; width: 42px; color: #b58190; vertical-align: top; margin-left: 10px; transform: rotate(-16deg); }
 .ann-butterfly svg { width: 100%; display: block; }
@@ -148,7 +149,7 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
 .ann-colophon { display: flex; justify-content: space-between; gap: 20px; padding-top: 28px; border-top: 1px solid #cba2a438; margin-top: 90px; font-size: .56rem; letter-spacing: .16em; color: #a17e80; }
 
 @keyframes ann-ken-burns { from { transform: scale(1); } to { transform: scale(1.065); } }
-@keyframes ann-heart-rise { 0%, 10% { opacity: 0; transform: translate3d(0, 0, 0); } 25% { opacity: .22; } 65% { opacity: .12; } 100% { opacity: 0; transform: translate3d(22px, -650px, 0) rotate(18deg); } }
+@keyframes ann-heart-rise { 0%, 10% { opacity: 0; transform: translate3d(0, 0, 0); } 25% { opacity: .16; } 65% { opacity: .08; } 100% { opacity: 0; transform: translate3d(16px, -650px, 0) rotate(12deg); } }
 @keyframes ann-butterfly-drift { 0%, 100% { transform: translate(0, 0) rotate(-16deg); opacity: .4; } 50% { transform: translate(-15px, -18px) rotate(4deg); opacity: .8; } }
 
 @media (max-width: 1000px) {
@@ -162,10 +163,10 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
   .ann-timeline-entry { gap: 70px; }
 }
 @media (max-width: 700px) {
-  .ann-section { width: calc(100% - 40px); padding-block: 70px; }
+  .ann-section { width: calc(100% - 40px); padding-block: clamp(64px, 17vw, 80px); }
   .ann-section-heading { margin-bottom: 38px; }
   .ann-main h2 { font-size: clamp(2.3rem, 9vw, 3.3rem); }
-  .ann-main .ann-eyebrow { font-size: .58rem; letter-spacing: .17em; margin-bottom: 18px; }
+  .ann-main .ann-eyebrow { font-size: .62rem; letter-spacing: .16em; margin-bottom: 18px; }
   .ann-hero { min-height: max(690px, 100svh); padding: 110px 25px 110px; }
   .ann-hero h1 { font-size: clamp(3.15rem, 11vw, 4.5rem); }
   .ann-hero-topline, .ann-hero-bottom { left: 22px; right: 22px; font-size: .49rem; gap: 16px; letter-spacing: .13em; }
@@ -181,7 +182,7 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
   .ann-letter-paper .ann-letter-opening { font-size: 1.95rem; }
   .ann-letter-aside { position: static; padding: 0; width: min(330px, calc(100% - 26px)); margin: auto; }
   .ann-margin-note { text-align: center; margin: 40px 0 0 !important; }
-  .ann-memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 19px; padding: 7px; }
+  .ann-memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 18px; padding: 7px; }
   .ann-polaroid { padding: 8px 8px 18px; }
   .ann-polaroid-caption { font-size: 1.2rem; padding-top: 12px; min-height: 62px; }
   .ann-photo-monogram { font-size: 3.4rem; }
@@ -230,21 +231,22 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
   padding: max(110px, calc(env(safe-area-inset-top) + 75px)) max(24px, env(safe-area-inset-right)) max(115px, calc(env(safe-area-inset-bottom) + 75px)) max(24px, env(safe-area-inset-left));
 }
 .ann-hero h1 { font-size: clamp(2.5rem, 9.5vw, 6rem); white-space: pre-line; }
-.ann-hero-dedication { white-space: pre-line; font-family: var(--ann-script); font-size: 1.9rem; line-height: 1.15; margin: 22px 0 25px !important; }
+.ann-hero-dedication { white-space: pre-line; font-family: var(--ann-script); font-size: 1.8rem; line-height: 1.3; margin: 24px 0 30px !important; }
 .ann-hero-message { font-size: clamp(.94rem, 1.2vw, 1.05rem); }
 .ann-hero-topline { top: max(24px, calc(env(safe-area-inset-top) + 12px)); left: max(22px, env(safe-area-inset-left)); right: max(22px, env(safe-area-inset-right)); }
 .ann-hero-bottom { bottom: max(22px, calc(env(safe-area-inset-bottom) + 8px)); left: max(22px, env(safe-area-inset-left)); right: max(22px, env(safe-area-inset-right)); }
 .ann-hero-bottom button { min-height: 44px; }
 .ann-hero-bottom button span { display: inline-block; animation: ann-scroll-hint 3s ease-in-out infinite; }
 .ann-butterfly-hero { animation: ann-butterfly-cross 5s ease-in-out 1; }
-.ann-section { width: min(1160px, calc(100% - max(40px, calc(env(safe-area-inset-left) + env(safe-area-inset-right) + 40px)))); }
+.ann-section { width: min(1160px, calc(100% - max(var(--ann-gutter), env(safe-area-inset-left)) - max(var(--ann-gutter), env(safe-area-inset-right)))); }
 .ann-main button { -webkit-tap-highlight-color: transparent; }
 .ann-reason { display: block; width: 100%; color: inherit; text-align: left; font: inherit; border-radius: 14px; touch-action: manipulation; }
 .ann-reason-top { display: flex; justify-content: space-between; align-items: center; color: #b08484; font-size: .6rem; letter-spacing: .12em; margin-bottom: 26px; }
 .ann-reason-title { font: 500 1.5rem/1.25 var(--ann-serif); display: block; }
 .ann-sticky-note { display: table; position: relative; margin: 35px auto 0 !important; padding: 13px 20px; background: #eee0c6; color: #8b5e66; font: 1.65rem/1.2 var(--ann-script); transform: rotate(-4deg); box-shadow: 0 5px 12px #633d4012; }
 .ann-sticky-note::before { content: ""; position: absolute; width: 60px; height: 16px; background: #f8e9d8ab; top: -8px; left: calc(50% - 30px); rotate: 7deg; }
-.ann-timeline .ann-timeline-progress { position: absolute; z-index: 0; left: calc(50% - 1px); top: 0; bottom: 0; margin: 0; padding: 0; width: 2px; background: linear-gradient(#d6b2b6, #9b5a73); transform-origin: top; pointer-events: none; }
+.ann-timeline-track { position: relative; }
+.ann-timeline-progress { position: absolute; z-index: 0; left: calc(50% - 1px); top: 0; bottom: 0; margin: 0; padding: 0; width: 2px; background: linear-gradient(#d6b2b6, #9b5a73); transform-origin: top; pointer-events: none; }
 .ann-timeline-entry { position: relative; }
 .ann-years { text-align: center; }
 .ann-years-message { width: min(100%, 700px); margin: 26px auto 0 !important; color: var(--ann-muted); font-size: 1rem; line-height: 1.9; }
@@ -276,12 +278,14 @@ body:has(.ann-photo-dialog[open]) { overflow: hidden; }
 @keyframes ann-scroll-hint { 50% { transform: translateY(4px); } }
 @keyframes ann-butterfly-cross { 0% { transform: translate(-80px, 10px) rotate(-20deg); opacity: 0; } 30% { opacity: .7; } 100% { transform: translate(0, 0) rotate(-16deg); } }
 @media (hover: hover) and (pointer: fine) {
+  .ann-button:hover { background: #f2e3de; box-shadow: 0 8px 28px #5921370d; }
+  .ann-main .ann-button-light:hover { background: #fff0df1c; }
   .ann-reason:hover { border-color: #ac7b8270; box-shadow: 0 12px 30px #63354208; }
   .ann-reason:hover .ann-reason-heart { transform: scale(1.15); color: #a34f6c; }
 }
 @media (max-width: 700px) {
   .ann-countdown-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .ann-timeline .ann-timeline-progress { left: 14px; }
+  .ann-timeline-progress { left: 14px; }
   .ann-main .ann-section-heading > p:last-child:not(.ann-eyebrow), .ann-timeline-copy > p:last-child { font-size: .95rem; line-height: 1.8; }
   .ann-reason-title { font-size: 1.4rem; }
   .ann-future { padding-left: max(25px, env(safe-area-inset-left)); padding-right: max(25px, env(safe-area-inset-right)); }

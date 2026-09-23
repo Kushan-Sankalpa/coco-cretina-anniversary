@@ -8,6 +8,8 @@ export const anniversaryData = {
   // Coco: replace this with your real anniversary start date, e.g. YYYY-MM-DD.
   // The old 2024-02-14 date belongs to the Alex/Jamie starter template, not your confirmed date.
   relationshipStartDate: "",
+  music: { src: "/music/until-i-found-you.mp3", volume: 0.35 },
+  cuteLabel: "my precious sosa mala ♥️🦋",
   hero: {
     image: "/photos/hero-coco-cretina.jpg",
     heading: "Happy 4th Anniversary\nMy Cretinaaa Princess ♥️🦋🫂🥹🐼",
@@ -18,8 +20,29 @@ export const anniversaryData = {
     message: "Four years of memories, laughter, little fights, endless talks, hugs, adventures and choosing each other again and again. And somehow, I still feel like our story is only getting started. ♥️🦋🫂",
   },
   countdown: {
+    // Temporary target: one year from this request. A real relationshipStartDate
+    // takes precedence. This is NOT a claim about your relationship start date.
+    fallbackTargetDate: "2027-09-23",
     subtitle: "One more countdown, a million more memories.",
     unconfiguredMessage: "So many beautiful tomorrows to look forward to. ♥️",
+    labels: { days: "Days", hours: "Hours", minutes: "Minutes", seconds: "Seconds" },
+  },
+  spinWheel: {
+    heading: "Spin for a little love surprise ♥️",
+    subtitle: "Seven little ways to spoil you. Every spin is a promise from Coco.",
+    spinLabel: "Spin for me ♥",
+    againLabel: "Spin again ♡",
+    spinningLabel: "A little love is on its way...",
+    // Keep each short wheel label to two lines; the full label appears in the result.
+    items: [
+      { id: "hug", label: "A Big Hug", lines: ["A Big", "Hug"], emoji: "🫂", color: "#ead5d2", message: "One of those long hugs where the rest of the world can wait." },
+      { id: "kiss", label: "Kiss Coupon", lines: ["Kiss", "Coupon"], emoji: "💋", color: "#d8a5b6", message: "A little kiss from Coco. Redeem whenever you miss me." },
+      { id: "movie", label: "Movie Night", lines: ["Movie", "Night"], emoji: "🎬", color: "#dcd3e6", message: "You pick the movie. I'll bring the snacks and keep you close." },
+      { id: "letter", label: "Love Letter", lines: ["Love", "Letter"], emoji: "💌", color: "#f4e5cc", message: "A handwritten reminder of all the little things I adore about you." },
+      { id: "chocolate", label: "Chocolate Date", lines: ["Chocolate", "Date"], emoji: "🍫", color: "#d2e0db", message: "Something sweet, a little walk, and my favorite company: you." },
+      { id: "massage", label: "Massage Session", lines: ["Massage", "Session"], emoji: "💆‍♀️", color: "#ebcfbb", message: "Time to relax, princess. A gentle massage and absolutely no hurry." },
+      { id: "princess", label: "Princess Treatment", lines: ["Princess", "Treatment"], emoji: "👑", color: "#ecdca4", message: "Your kind of day, your favorite things. Let Coco take care of you." },
+    ],
   },
   letter: {
     image: "/photos/love-letter-photo.jpg",

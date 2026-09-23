@@ -29,10 +29,23 @@ export function getAnniversaryState(config, now = new Date()) {
   let months = (now.getFullYear() - start.getFullYear()) * 12 + now.getMonth() - start.getMonth();
   const monthlyDay = Math.min(start.getDate(), new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate());
   if (now.getDate() < monthlyDay) months--;
-  // This keeps the celebration's next chapter (5th) rather than counting down to
-  // the current 4th when someone visits before its date. Later years roll forward.
-  const nextNumber = Math.max(celebration + 1, years + 1);
+  // Once a real date is configured, it is the only source of truth. At midnight
+  // on each anniversary the following year's date becomes the target.
+  const nextNumber = years + 1;
   return { configured: true, years, months, nextNumber, nextDate: anniversaryDate(start, nextNumber) };
+}
+
+// A separate provisional target can drive the clock without inventing a
+// relationship date or changing the "years together" statistics.
+export function getAnniversaryCountdownState(config, now = new Date()) {
+  const state = getAnniversaryState(config, now);
+  if (state.configured) return { ...state, provisional: false };
+  const target = parseRelationshipDate(config.countdown?.fallbackTargetDate);
+  if (!target) return { ...state, provisional: false };
+  let rolls = Math.max(0, now.getFullYear() - target.getFullYear());
+  let nextDate = anniversaryDate(target, rolls);
+  if (nextDate <= now) nextDate = anniversaryDate(target, ++rolls);
+  return { ...state, provisional: true, nextDate, nextNumber: state.nextNumber + rolls };
 }
 
 export function getCountdown(target, now = new Date()) {

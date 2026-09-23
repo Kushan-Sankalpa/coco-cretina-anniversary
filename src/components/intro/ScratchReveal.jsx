@@ -10,11 +10,15 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
   const coverageTimer = useRef(null);
   const revealedRef = useRef(false);
   const headingRef = useRef(null);
+  const cardRef = useRef(null);
+  const continueRef = useRef(null);
+  const restoreFocus = useRef(false);
   const [started, setStarted] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const reduced = useReducedMotion();
   const reveal = useCallback(() => {
     if (revealedRef.current) return;
+    restoreFocus.current = document.activeElement === canvasRef.current || document.activeElement?.classList.contains("scratch-reveal-alternative");
     revealedRef.current = true;
     clearTimeout(coverageTimer.current);
     coverageTimer.current = null;
@@ -26,9 +30,17 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
     const canvas = canvasRef.current;
     const engine = new ScratchEngine(canvas, () => document.createElement("canvas"), paintScratchCover);
     engineRef.current = engine;
-    const resize = () => engine.resize(canvas.clientWidth, canvas.clientHeight, window.devicePixelRatio || 1);
+    let size = canvas.getBoundingClientRect();
+    const resize = () => {
+      // After reveal the photo can shrink smoothly; don't redraw its invisible mask.
+      if (!revealedRef.current) engine.resize(size.width, size.height, window.devicePixelRatio || 1);
+    };
     resize();
-    const observer = new ResizeObserver(resize);
+    const observer = new ResizeObserver(([entry]) => {
+      // contentRect retains fractional CSS pixels and excludes animation transforms.
+      size = entry.contentRect;
+      resize();
+    });
     observer.observe(canvas);
     window.addEventListener("resize", resize);
     headingRef.current?.focus({ preventScroll: true });
@@ -40,6 +52,15 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
       engineRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!revealed || leaving) return;
+    const timer = setTimeout(() => {
+      cardRef.current?.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+      if (restoreFocus.current) continueRef.current?.focus({ preventScroll: true });
+    }, reduced ? 0 : 1100);
+    return () => clearTimeout(timer);
+  }, [revealed, leaving, reduced]);
 
   const checkCoverage = () => {
     coverageTimer.current = null;
@@ -74,15 +95,17 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
   };
 
   return (
-    <motion.section className={`intro-panel scratch-intro ${leaving ? "scratch-leaving" : ""}`}
+    <motion.section className={`intro-panel scratch-intro ${revealed ? "scratch-revealed" : ""} ${leaving ? "scratch-leaving" : ""}`}
       aria-labelledby="scratch-title" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduced ? 0 : .4 }}>
-      <div className="scratch-heading">
+      <motion.div className="scratch-heading" aria-hidden={revealed}
+        initial={false} animate={{ height: revealed ? 0 : "auto", opacity: revealed ? 0 : 1 }}
+        transition={{ duration: reduced ? 0 : .7, delay: reduced ? 0 : .4, ease: [.22, 1, .36, 1] }}>
         <p className="intro-kicker">A little something from my heart</p>
         <h1 id="scratch-title" ref={headingRef} tabIndex={-1}>{instruction}</h1>
         <p>Just your finger, and a little curiosity.</p>
-      </div>
+      </motion.div>
       {/* No rotation or scale during scratching: pointer and canvas coordinate spaces stay aligned. */}
-      <motion.div className={`surprise-card ${revealed ? "is-revealed" : ""}`}
+      <motion.div ref={cardRef} className={`surprise-card ${revealed ? "is-revealed" : ""}`}
         animate={{ scale: leaving && !reduced ? .95 : 1, opacity: leaving ? .4 : 1 }}
         transition={{ duration: reduced ? 0 : .7 }}>
         <div className="scratch-frame">
@@ -118,9 +141,13 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
       <div className="scratch-after" aria-live="polite">
         {revealed ? <motion.div initial={{ opacity: 0, y: reduced ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduced ? 0 : .55 }}>
           <p className="scratch-message">{hiddenMessage}</p>
-          <button className="intro-continue-button" onClick={onContinue} disabled={leaving}>Continue to our story ♥️ <span aria-hidden="true">→</span></button>
         </motion.div> : <button className="scratch-reveal-alternative" onClick={reveal}>Or tap here to reveal ♡</button>}
       </div>
+      {revealed && <motion.div className="scratch-continue-dock"
+        initial={reduced ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduced ? 0 : .6, delay: reduced ? 0 : .7, ease: [.22, 1, .36, 1] }}>
+        <button ref={continueRef} className="intro-continue-button" onClick={onContinue} disabled={leaving}>Continue to our story ♥️ <span aria-hidden="true">→</span></button>
+      </motion.div>}
     </motion.section>
   );
 }

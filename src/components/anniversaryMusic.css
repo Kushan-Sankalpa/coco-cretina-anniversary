@@ -1,0 +1,6 @@
+.ann-music-control { position: fixed; z-index: 50; top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); }
+.ann-music-control button { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid #f7dac16b; background: #592137e8; color: #fff1de; box-shadow: 0 3px 14px #36112724; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ann-music-control svg { width: 22px; height: 22px; }
+.ann-music-control button:focus-visible { outline: 2px solid #c0889e; outline-offset: 4px; }
+.ann-music-control p { position: absolute; right: 0; top: 44px; width: 210px; padding: 12px 15px; border-radius: 12px; background: #fff4e9; color: #592137; box-shadow: 0 5px 20px #36112720; font: .8rem/1.5 system-ui, sans-serif; }
+.ann-hero-topline { padding-right: 48px; }
