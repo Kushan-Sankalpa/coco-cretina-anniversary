@@ -1,26 +1,26 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
 import FloatingHearts from "./FloatingHearts";
 import ButterflyAccent from "./ButterflyAccent";
-import { nextSpinRotation, segmentPath, wheelPoint, winnerAtRotation } from "./wheelGeometry";
+import { nextSpinRotation, normalizeDegrees, segmentPath, wheelLabelPoint, wheelPoint, winnerAtRotation } from "./wheelGeometry";
 import "./spinWheel.css";
 
-function WheelLabel({ item, index, count, rotation }) {
-  const point = wheelPoint(-90 + index * 360 / count, 161);
-  // Labels move around the circle but stay upright, including when the spin ends.
-  const counterRotation = useTransform(rotation, (angle) => -angle);
-  return <motion.g style={{ rotate: counterRotation, transformBox: "view-box", transformOrigin: `${point.x}px ${point.y}px` }} className="ann-wheel-label">
-    <text x={point.x} y={point.y - 20} textAnchor="middle" className="ann-wheel-emoji">{item.emoji}</text>
-    <text x={point.x} y={point.y + 7} textAnchor="middle">
-      {item.lines.map((line, i) => <tspan key={line} x={point.x} dy={i === 0 ? 0 : 25}>{line}</tspan>)}
+function WheelLabel({ item, index, count, labelRef }) {
+  const point = wheelLabelPoint(index, count, 0);
+  return <g ref={labelRef} transform={`translate(${point.x} ${point.y})`} className="ann-wheel-label">
+    <text x="0" y="-20" textAnchor="middle" className="ann-wheel-emoji">{item.emoji}</text>
+    <text x="0" y="7" textAnchor="middle">
+      {item.lines.map((line, i) => <tspan key={line} x="0" dy={i === 0 ? 0 : 25}>{line}</tspan>)}
     </text>
-  </motion.g>;
+  </g>;
 }
 
 export default function LoveSpinWheel({ data }) {
   const rimId = `wheel-rim-${useId().replaceAll(":", "")}`;
   const rotation = useMotionValue(0);
+  const rotorRef = useRef(null);
+  const labelsRef = useRef([]);
   const reduced = useReducedMotion();
   const controlsRef = useRef(null);
   const spinningRef = useRef(false);
@@ -31,6 +31,20 @@ export default function LoveSpinWheel({ data }) {
   const reducedRef = useRef(reduced);
   reducedRef.current = reduced;
 
+  // Native SVG coordinates avoid CSS transform-origin/counter-rotation drift
+  // on scaled mobile wheels. Segments and upright labels share the same angle.
+  useLayoutEffect(() => {
+    const draw = (angle) => {
+      rotorRef.current?.setAttribute("transform", `rotate(${normalizeDegrees(angle)} 280 280)`);
+      labelsRef.current.forEach((label, index) => {
+        const point = wheelLabelPoint(index, data.items.length, angle);
+        label?.setAttribute("transform", `translate(${point.x} ${point.y})`);
+      });
+    };
+    draw(rotation.get());
+    return rotation.on("change", draw);
+  }, [rotation, data.items.length]);
+
   useEffect(() => () => {
     controlsRef.current?.stop();
     spinningRef.current = false;
@@ -38,12 +52,13 @@ export default function LoveSpinWheel({ data }) {
 
   const finish = useCallback((target) => {
     if (!spinningRef.current) return;
+    rotation.set(normalizeDegrees(target));
     spinningRef.current = false;
     setSpinning(false);
-    setResult(data.items[winnerAtRotation(target, data.items.length)]);
+    setResult(data.items[winnerAtRotation(rotation.get(), data.items.length)]);
     setSpinCount((count) => count + 1);
     pendingRef.current = null;
-  }, [data.items]);
+  }, [data.items, rotation]);
 
   useEffect(() => {
     if (reduced && spinningRef.current && pendingRef.current !== null) {
@@ -60,8 +75,8 @@ export default function LoveSpinWheel({ data }) {
     setSpinning(true);
     setResult(null);
     const selected = Math.floor(Math.random() * data.items.length);
-    const offset = (Math.random() - .5) * (360 / data.items.length) * .3;
-    const target = nextSpinRotation(rotation.get(), selected, data.items.length, reducedRef.current ? 0 : 6, offset);
+    // Settle on the segment center so the pointer's choice is unambiguous.
+    const target = nextSpinRotation(rotation.get(), selected, data.items.length, reducedRef.current ? 0 : 6);
     pendingRef.current = target;
     if (reducedRef.current) {
       rotation.set(target);
@@ -87,18 +102,20 @@ export default function LoveSpinWheel({ data }) {
       <Reveal className="ann-wheel-content">
         <div className={`ann-wheel-stage ${spinning ? "is-spinning" : ""}`} aria-busy={spinning}>
           <div className="ann-wheel-halo" aria-hidden="true" />
-          <motion.svg className="ann-wheel-disc" viewBox="0 0 560 560" style={{ rotate: rotation }} aria-hidden="true">
+          <svg className="ann-wheel-disc" viewBox="0 0 560 560" aria-hidden="true">
             <defs><radialGradient id={rimId}><stop offset=".88" stopColor="#e1c5a7" /><stop offset=".95" stopColor="#fff8ea" /><stop offset="1" stopColor="#d5b69f" /></radialGradient></defs>
             <circle cx="280" cy="280" r="271" fill={`url(#${rimId})`} stroke="#bb9385" strokeWidth="1" />
             <circle cx="280" cy="280" r="257" fill="#885769" />
+            <g ref={rotorRef} transform="rotate(0 280 280)">
             {data.items.map((item, index) => <path className="ann-wheel-segment" data-selected={result?.id === item.id} key={item.id} d={segmentPath(index, data.items.length)} fill={item.color} stroke={result?.id === item.id ? "#966276" : "#fff5e4"} strokeWidth={result?.id === item.id ? 3 : 1.5} />)}
+            </g>
             <circle cx="280" cy="280" r="247" fill="none" stroke="#fff7e6" strokeWidth="4" />
             {Array.from({ length: 28 }, (_, i) => {
               const point = wheelPoint(i * 360 / 28, 263);
               return <circle key={i} cx={point.x} cy={point.y} r="1.2" fill="#a77875" opacity=".5" />;
             })}
-            {data.items.map((item, index) => <WheelLabel key={item.id} item={item} index={index} count={data.items.length} rotation={rotation} />)}
-          </motion.svg>
+            {data.items.map((item, index) => <WheelLabel key={item.id} item={item} index={index} count={data.items.length} labelRef={(node) => { labelsRef.current[index] = node; }} />)}
+          </svg>
           <svg className="ann-wheel-pointer" viewBox="0 0 40 54" aria-hidden="true"><path d="M3 4Q20-2 37 4L23 48Q20 54 17 48Z" fill="#75354f" stroke="#f9debf" strokeWidth="2" /><circle cx="20" cy="14" r="4" fill="#e8bf9d" /></svg>
           <button className="ann-wheel-hub" onClick={spin} disabled={spinning} aria-label={spinning ? "Wheel spinning" : "Spin the love wheel"}><span aria-hidden="true">♥</span></button>
           {result && !reduced && <div className="ann-wheel-burst" key={spinCount} aria-hidden="true">

@@ -17,6 +17,10 @@ export function winnerAtRotation(rotation, count) {
   return Math.floor((normalizeDegrees(-rotation) + 180 / count) / (360 / count)) % count;
 }
 
+export function wheelLabelPoint(index, count, rotation) {
+  return wheelPoint(-90 + index * 360 / count + normalizeDegrees(rotation), 161);
+}
+
 export function nextSpinRotation(previous, selected, count, turns = 6, offset = 0) {
   const step = 360 / count;
   // Keep the pointer safely inside a segment, never on its divider.

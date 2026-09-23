@@ -1,9 +1,22 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { nextSpinRotation, normalizeDegrees, segmentPath, wheelPoint, winnerAtRotation } from "../src/components/anniversary/wheelGeometry.js";
+import { nextSpinRotation, normalizeDegrees, segmentPath, wheelLabelPoint, wheelPoint, winnerAtRotation } from "../src/components/anniversary/wheelGeometry.js";
 import { anniversaryData } from "../src/data/anniversaryData.js";
 
 const count = anniversaryData.spinWheel.items.length;
+test("visible label at the top pointer matches the result on every repeated spin", () => {
+  let angle = 0;
+  for (let spin = 0; spin < 140; spin++) {
+    const selected = spin % count;
+    angle = normalizeDegrees(nextSpinRotation(angle, selected, count));
+    const points = anniversaryData.spinWheel.items.map((_, index) => wheelLabelPoint(index, count, angle));
+    const topIndex = points.reduce((best, point, index) => point.y < points[best].y ? index : best, 0);
+    assert.equal(topIndex, selected);
+    assert.equal(winnerAtRotation(angle, count), topIndex);
+    assert.ok(Math.abs(points[topIndex].x - 280) < 1e-8);
+    assert.ok(Math.abs(points[topIndex].y - 119) < 1e-8);
+  }
+});
 test("seven unique configured outcomes have short two-line labels", () => {
   assert.equal(count, 7);
   assert.equal(new Set(anniversaryData.spinWheel.items.map((item) => item.id)).size, 7);
