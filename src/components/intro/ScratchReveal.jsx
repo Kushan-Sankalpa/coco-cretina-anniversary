@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import RomanticPhoto from "../anniversary/RomanticPhoto";
 import { FingerIcon } from "./TapHint";
@@ -15,6 +16,7 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
   const restoreFocus = useRef(false);
   const [started, setStarted] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [continueReady, setContinueReady] = useState(false);
   const reduced = useReducedMotion();
   const reveal = useCallback(() => {
     if (revealedRef.current) return;
@@ -57,7 +59,6 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
     if (!revealed || leaving) return;
     const timer = setTimeout(() => {
       cardRef.current?.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
-      if (restoreFocus.current) continueRef.current?.focus({ preventScroll: true });
     }, reduced ? 0 : 1100);
     return () => clearTimeout(timer);
   }, [revealed, leaving, reduced]);
@@ -117,6 +118,9 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
             initial={{ opacity: 1 }} animate={{ opacity: revealed ? 0 : 1 }}
             style={{ pointerEvents: revealed ? "none" : "auto" }}
             transition={{ duration: reduced ? 0 : .8 }}
+            onAnimationComplete={() => {
+              if (revealedRef.current) setContinueReady(true);
+            }}
             onPointerDown={down} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onLostPointerCapture={end}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setStarted(true); reveal(); }
@@ -143,11 +147,17 @@ export default function ScratchReveal({ image, imageAlt, instruction, hiddenMess
           <p className="scratch-message">{hiddenMessage}</p>
         </motion.div> : <button className="scratch-reveal-alternative" onClick={reveal}>Or tap here to reveal ♡</button>}
       </div>
-      {revealed && <motion.div className="scratch-continue-dock"
-        initial={reduced ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduced ? 0 : .6, delay: reduced ? 0 : .7, ease: [.22, 1, .36, 1] }}>
+      {/* A body portal keeps the button anchored to the phone viewport, outside
+          the intro's animated/overflow-clipped ancestors. Wait for mask fade. */}
+      {continueReady && createPortal(<motion.div className="scratch-continue-dock"
+        initial={reduced ? false : { opacity: 0, y: "100%" }}
+        animate={{ opacity: leaving ? 0 : 1, y: leaving ? "100%" : 0 }}
+        transition={{ duration: reduced ? 0 : leaving ? .25 : .75, ease: [.22, 1, .36, 1] }}
+        onAnimationComplete={() => {
+          if (!leaving && restoreFocus.current) continueRef.current?.focus({ preventScroll: true });
+        }}>
         <button ref={continueRef} className="intro-continue-button" onClick={onContinue} disabled={leaving}>Continue to our story ♥️ <span aria-hidden="true">→</span></button>
-      </motion.div>}
+      </motion.div>, document.body)}
     </motion.section>
   );
 }

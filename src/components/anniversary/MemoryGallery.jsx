@@ -52,7 +52,11 @@ export default function MemoryGallery({ data }) {
         }}
         onClick={(event) => { if (event.target === event.currentTarget) dialogRef.current.close(); }}>
         <div className="ann-dialog-content">
-          <button className="ann-dialog-close" autoFocus onClick={() => dialogRef.current.close()} aria-label="Close photo">×</button>
+          <button className="ann-dialog-close" autoFocus onClick={() => dialogRef.current.close()} aria-label="Close photo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+              <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
           <RomanticPhoto key={photo.image} src={photo.image} alt={photo.caption} />
           <div className="ann-dialog-controls">
             <button onClick={() => setSelected((selected + data.photos.length - 1) % data.photos.length)} aria-label="Previous photo">←</button>

@@ -51,7 +51,7 @@
 .surprise-card { width: min(100%, 390px); flex: 0 0 auto; background: #fff4e8; border: 1px solid #ffe8dd; padding: 9px; border-radius: 28px; box-shadow: 0 20px 50px #18051e54, 0 0 0 1px #fff2e811; }
 .surprise-card.is-revealed { width: min(100%, 390px, max(200px, calc(68svh - 160px))); transition: width .7s cubic-bezier(.22, 1, .36, 1) .65s; scroll-margin-top: max(24px, env(safe-area-inset-top)); }
 .scratch-revealed { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
-.scratch-continue-dock { position: fixed; z-index: 10; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; padding: 28px max(20px, env(safe-area-inset-right)) max(20px, calc(env(safe-area-inset-bottom) + 12px)) max(20px, env(safe-area-inset-left)); background: linear-gradient(transparent, #461129e8 40%, #461129); pointer-events: none; }
+.scratch-continue-dock { position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; padding: 28px max(20px, env(safe-area-inset-right)) max(20px, calc(env(safe-area-inset-bottom) + 12px)) max(20px, env(safe-area-inset-left)); background: linear-gradient(transparent, #461129e8 40%, #461129); pointer-events: none; text-align: center; font-family: Inter, system-ui, sans-serif; }
 .scratch-continue-dock .intro-continue-button { pointer-events: auto; box-shadow: 0 8px 25px #20051d38; }
 .scratch-frame { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; isolation: isolate; border-radius: 21px; background: #d4a5ab; }
 .scratch-photo { position: absolute; inset: 0; }
